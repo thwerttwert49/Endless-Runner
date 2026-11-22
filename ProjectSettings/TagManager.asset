@@ -5,6 +5,10 @@ TagManager:
   serializedVersion: 3
   tags:
   - Collectible
+  - Enemy1
+  - Enemy2
+  - Brick
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -12,7 +16,7 @@ TagManager:
   - Player
   - Water
   - UI
-  - 
+  - Enemy1
   - 
   - 
   - 

@@ -7,6 +7,8 @@ public class Level : MonoBehaviour
     private GameObject player;
     private GameObject spike_wall;
     [SerializeField] private GameObject block_prefab;
+    [SerializeField] private GameObject enemy1_prefab;
+    [SerializeField] private GameObject enemy2_prefab;
     private float gen_distance = 0f;
     void Start()
     {
@@ -31,24 +33,36 @@ public class Level : MonoBehaviour
     }
     private void generate() {
         //new ceiling and floor
-        GameObject floor = Instantiate(block_prefab, new Vector3(gen_distance, -4.5f, 0f) , main_camera.transform.rotation);
-        floor.transform.localScale = new Vector2(40f, 1f);
-        GameObject ceiling = Instantiate(block_prefab, new Vector3(gen_distance, 4.5f, 0f) , main_camera.transform.rotation);
-        ceiling.transform.localScale = new Vector2(40f, 1f);
-
-        int count = Random.Range(0, 5);
-        for (int i = 0; i < count; ++i) {
-            GameObject block = Instantiate(block_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
-            block.transform.localScale = new Vector2(Random.Range(-15, 15), Random.Range(-3, 3));
-        }
-        //destroy old objects
-        GameObject[] objects = FindObjectsByType<GameObject>(
-            FindObjectsSortMode.None
-        );
-        foreach (GameObject obj in objects) {
-            if (obj.transform.position.x < gen_distance - 100 && obj != this.gameObject) {
-                Destroy(obj);
+            GameObject floor = Instantiate(block_prefab, new Vector3(gen_distance, -4.5f, 0f) , main_camera.transform.rotation);
+            floor.transform.localScale = new Vector2(40f, 1f);
+            GameObject ceiling = Instantiate(block_prefab, new Vector3(gen_distance, 4.5f, 0f) , main_camera.transform.rotation);
+            ceiling.transform.localScale = new Vector2(40f, 1f);
+        //blocks
+            int count = Random.Range(0, 5);
+            for (int i = 0; i < count; ++i) {
+                GameObject block = Instantiate(block_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
+                block.transform.localScale = new Vector2(Random.Range(-15, 15), Random.Range(-3, 3));
             }
-        }
+        //enemy1
+            count = Random.Range(0, 3);
+            for (int i = 0; i < count; ++i) {
+                GameObject block = Instantiate(enemy1_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
+                //block.transform.localScale = new Vector2(Random.Range(-15, 15), Random.Range(-3, 3));
+            }
+        //enemy2
+            count = Random.Range(0, 3);
+            for (int i = 0; i < count; ++i) {
+                GameObject block = Instantiate(enemy2_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
+                //block.transform.localScale = new Vector2(Random.Range(-15, 15), Random.Range(-3, 3));
+            }
+        //destroy old objects
+            GameObject[] objects = FindObjectsByType<GameObject>(
+                FindObjectsSortMode.None
+            );
+            foreach (GameObject obj in objects) {
+                if (obj.transform.position.x < gen_distance - 100 && obj != this.gameObject) {
+                    Destroy(obj);
+                }
+            }
     }
 }

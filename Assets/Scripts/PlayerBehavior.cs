@@ -4,18 +4,22 @@
 //Desc: Player controller
 //Atch: Player
 //=========================================
-// fix player grounded detection
-// fix player movement
-// 3 pieces of art
-// 3 obstacles
-// 3 attribute collectible
-// score collectible
-// display score
-// save up to 5 high scores
-// can restart level after loss
+
+// 3 pieces of art 1:30
+// 3 obstacles 3:00
+// gun 4:30
+// 3 attribute collectible 5:30
+// score 6:00
+// score collectible 6:30
+// display score 7:00
+// save up to 5 high scores 7:30
+// can restart level after loss 8:00
+// fix player movement 9:00
+// other + polish 10:00
+// ========================================
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerBehavior : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
@@ -34,6 +38,12 @@ public class PlayerController : MonoBehaviour
     private float last_dash = 0f;
     private float dash_cooldown = 0.4f;
     private bool can_dash = false;
+    private float invincible_until = 0f;
+    //bullet
+    [SerializeField] private GameObject bullet_prefab;
+    private float shoot_cooldown = 0.5f;
+    private float shoot_cooldown_until = 0f;
+    //
     void Start()
     {
         air_jumps = max_air_jumps;
@@ -80,8 +90,12 @@ public class PlayerController : MonoBehaviour
                 last_d_press = Time.time;
             }
         }
+        if (Time.time > invincible_until) { //changes transparency back when not invincible
+            GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 255);
+        }
+        try_shoot();
     }
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         string tag = collision.gameObject.tag;
 
@@ -123,6 +137,20 @@ public class PlayerController : MonoBehaviour
             transform.eulerAngles = new Vector3(0f, 180f, 0f);
         }
     }
+    private void try_shoot() {
+        if (Input.GetMouseButton(0) && Time.time > shoot_cooldown_until) {
+            shoot_cooldown_until = Time.time + shoot_cooldown;
+            Vector3 mouse_world_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            Vector3 shoot_direction = (mouse_world_position - transform.position).normalized;
+            GameObject bullet = Instantiate(bullet_prefab, transform.position + shoot_direction * 0.5f, transform.rotation);
+            bullet.transform.localScale = new Vector2(0.1f, 0.1f);
+            BulletBehavior bullet_behavior = bullet.GetComponent<BulletBehavior>();
+            Rigidbody2D bullet_rb = bullet.GetComponent<Rigidbody2D>();
+            bullet_rb.linearVelocity = shoot_direction * 20f;
+            //bullet_behavior.fire(shoot_direction * 5);
+        }
+    }
     private void player_state() {
         RaycastHit2D result = Physics2D.BoxCast(
             transform.position,
@@ -143,6 +171,15 @@ public class PlayerController : MonoBehaviour
             //Debug.Log("air");
             grounded = false;
             can_jump = false;
+        }
+    }
+    public void take_damage(float damage) {
+        if (Time.time > invincible_until)
+        {
+            health -= damage;
+            Debug.Log("damage taken");
+            GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 120);
+            invincible_until = Time.time + 1.5f;
         }
     }
 }
