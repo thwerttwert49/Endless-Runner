@@ -7,8 +7,12 @@ public class Level : MonoBehaviour
     private GameObject player;
     private GameObject spike_wall;
     [SerializeField] private GameObject block_prefab;
+    [SerializeField] private GameObject destructible_block_prefab;
     [SerializeField] private GameObject enemy1_prefab;
     [SerializeField] private GameObject enemy2_prefab;
+    [SerializeField] private GameObject heal_prefab;
+    [SerializeField] private GameObject bullet_damage_prefab;
+    [SerializeField] private GameObject shoot_prefab;
     private float gen_distance = 0f;
     void Start()
     {
@@ -22,7 +26,7 @@ public class Level : MonoBehaviour
     {
         //main_camera.transform.position += new Vector3(1f * Time.deltaTime, 0f, 0f);
         main_camera.transform.position = new Vector3(player.transform.position.x, 0f, -10f);
-        spike_wall.transform.position += new Vector3(1f * Time.deltaTime, 0f, 0f);
+        spike_wall.transform.position += new Vector3(2f * Time.deltaTime, 0f, 0f);
         if (spike_wall.transform.position.x < main_camera.transform.position.x - 14f) {
             spike_wall.transform.position = new Vector3(main_camera.transform.position.x - 14f, 0f, -5f);
         }
@@ -40,8 +44,8 @@ public class Level : MonoBehaviour
         //blocks
             int count = Random.Range(0, 5);
             for (int i = 0; i < count; ++i) {
-                GameObject block = Instantiate(block_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
-                block.transform.localScale = new Vector2(Random.Range(-15, 15), Random.Range(-3, 3));
+                GameObject block = Instantiate(destructible_block_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
+                block.transform.localScale = new Vector2(Random.Range(-30, 30), Random.Range(-6, 6));
             }
         //enemy1
             count = Random.Range(0, 3);
@@ -54,6 +58,19 @@ public class Level : MonoBehaviour
             for (int i = 0; i < count; ++i) {
                 GameObject block = Instantiate(enemy2_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
                 //block.transform.localScale = new Vector2(Random.Range(-15, 15), Random.Range(-3, 3));
+            }
+        //pickups
+            if (Random.Range(0, 5) == 0)
+            {
+                GameObject pickup = Instantiate(heal_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
+            }
+            if (Random.Range(0, 5) == 0)
+            {
+                GameObject pickup = Instantiate(bullet_damage_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
+            }
+            if (Random.Range(0, 5) == 0)
+            {
+                GameObject pickup = Instantiate(shoot_prefab, new Vector3(gen_distance + Random.Range(-20, 20), Random.Range(-4, 4), 0f) , main_camera.transform.rotation);
             }
         //destroy old objects
             GameObject[] objects = FindObjectsByType<GameObject>(

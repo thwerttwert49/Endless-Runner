@@ -180,3 +180,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0876bc84dfc87fe45ac3f270e448a04d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Enemy1Behavior
+  score_prefab: {fileID: 4375701497631289688, guid: 666d76523c229da4296d01b4b1bda694, type: 3}

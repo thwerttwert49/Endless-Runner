@@ -7,9 +7,11 @@ public class Enemy1Behavior : MonoBehaviour
     private BoxCollider2D enemy_collider;
     private GameObject player;
     private bool grounded = false;
-    private float movementSpeed = 15;
+    private float movementSpeed = 7;
     private float jump_power = 7;
-    private float health;
+    private float health = 1f;
+
+    [SerializeField] private GameObject score_prefab;
     void Start()
     {
          player = GameObject.Find("Player");
@@ -87,6 +89,7 @@ public class Enemy1Behavior : MonoBehaviour
     public void take_damage(float damage) {
         health -= damage;
         if (health <= 0) {
+            GameObject score_pickup = Instantiate(score_prefab, transform.position + new Vector3(Random.Range(-10, 11) * 0.05f, Random.Range(-10, 11) * 0.05f, 0f) , transform.rotation);
             Destroy(this.gameObject);
         }
         Debug.Log("enemy damage taken");

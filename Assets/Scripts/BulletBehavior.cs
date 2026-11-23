@@ -4,6 +4,7 @@ public class BulletBehavior : MonoBehaviour
 {
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     private Rigidbody2D bullet_rb;
+    private float bullet_damage = 1f;
     void Start()
     {
         bullet_rb = GetComponent<Rigidbody2D>();
@@ -18,20 +19,25 @@ public class BulletBehavior : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Enemy")) {
              Enemy1Behavior enemy1_behavior = collision.gameObject.GetComponent<Enemy1Behavior>();
-             if (enemy1_behavior) {
-                 enemy1_behavior.take_damage(1f);
-                 Destroy(this.gameObject);
+             if (enemy1_behavior) { //checks if it has the behavior
+                 enemy1_behavior.take_damage(bullet_damage);
              }
              Enemy2Behavior enemy2_behavior = collision.gameObject.GetComponent<Enemy2Behavior>();
              if (enemy2_behavior) {
-                 enemy2_behavior.take_damage(1f);
-                 Destroy(this.gameObject);
+                 enemy2_behavior.take_damage(bullet_damage);
              }
              BlockBehavior block_behavior = collision.gameObject.GetComponent<BlockBehavior>();
              if (block_behavior) {
-                 block_behavior.take_damage(1f);
-                 Destroy(this.gameObject);
+                 block_behavior.take_damage(bullet_damage);
              }
         }
+        if (collision.gameObject.CompareTag("Player") == false)
+        {
+            Destroy(this.gameObject);
+        }
+    }
+    public void change_damage(float new_damage)
+    {
+        bullet_damage = new_damage;
     }
 }

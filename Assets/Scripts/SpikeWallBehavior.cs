@@ -18,7 +18,7 @@ public class SpikeWallBehavior : MonoBehaviour
         //Debug.Log("Hit: " + collision.gameObject.name);
          if (collision.gameObject.CompareTag("Player")) {
              PlayerBehavior player_behavior = collision.gameObject.GetComponent<PlayerBehavior>();
-             player_behavior.take_damage(1f);
+             player_behavior.take_damage(3f);
         }
     }
 }
