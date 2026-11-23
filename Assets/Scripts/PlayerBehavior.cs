@@ -19,6 +19,8 @@
 // ========================================
 using UnityEngine;
 using TMPro; //to use textmesh pro
+using UnityEngine.SceneManagement; //for loading scene
+using System.Collections;
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -248,7 +250,12 @@ public class PlayerBehavior : MonoBehaviour
             GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 120);
             invincible_until = Time.time + 1.5f;
             if (health <= 0) {
-                Destroy(this.gameObject);
+                GetComponent<SpriteRenderer>().color = new Color32(255, 255, 255, 0);
+                Time.timeScale = 0f;
+                SceneManager.LoadScene("Menu", LoadSceneMode.Additive);
+                GameObject menu_canvas = GameObject.Find("MenuCanvas");
+                Menu menu_behavior = menu_canvas.GetComponent<Menu>();
+                menu_behavior.add_score(score);
             }
         }
     }
