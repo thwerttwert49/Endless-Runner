@@ -9,6 +9,7 @@ TagManager:
   - Enemy2
   - Brick
   - Enemy
+  - NoDespawn
   layers:
   - Default
   - TransparentFX

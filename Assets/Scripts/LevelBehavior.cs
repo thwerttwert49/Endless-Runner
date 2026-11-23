@@ -77,7 +77,7 @@ public class Level : MonoBehaviour
                 FindObjectsSortMode.None
             );
             foreach (GameObject obj in objects) {
-                if (obj.transform.position.x < gen_distance - 100 && obj != this.gameObject) {
+                if (obj.CompareTag("NoDespawn") == false && obj.transform.position.x < gen_distance - 100 && obj != this.gameObject) {
                     Destroy(obj);
                 }
             }

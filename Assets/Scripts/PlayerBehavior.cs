@@ -18,6 +18,7 @@
 // other + polish 10:00
 // ========================================
 using UnityEngine;
+using TMPro; //to use textmesh pro
 
 public class PlayerBehavior : MonoBehaviour
 {
@@ -39,7 +40,9 @@ public class PlayerBehavior : MonoBehaviour
     private float dash_cooldown = 0.4f;
     private bool can_dash = true;
     private float invincible_until = 0f;
+    //score
     private float score = 0f;
+    private TMP_Text score_text;
     //bullet
     [SerializeField] private GameObject bullet_prefab;
     private float shoot_cooldown = 0.5f;
@@ -53,6 +56,7 @@ public class PlayerBehavior : MonoBehaviour
         player_rb = GetComponent<Rigidbody2D>();
         player_collider = GetComponent<BoxCollider2D>();
         health = max_health;
+        score_text = GameObject.Find("ScoreText").GetComponent<TMP_Text>();
     }
 
     // Update is called once per frame
@@ -97,6 +101,7 @@ public class PlayerBehavior : MonoBehaviour
             else if (collectible_behavior.type == "score") //checks collectible type
             {
                 score += 50f;
+                score_text.text = score.ToString();
             }
             Destroy(collision.gameObject);
         }
